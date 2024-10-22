@@ -1,0 +1,30 @@
+#version: '3.8'
+
+services:
+  app:
+    image: jairoJR/app:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+      - DATABASE_USER=test
+      - DATABASE_PASSWORD=test
+      - DATABASE_NAME=test
+
+  db:
+    image: mariadb:5.5
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
