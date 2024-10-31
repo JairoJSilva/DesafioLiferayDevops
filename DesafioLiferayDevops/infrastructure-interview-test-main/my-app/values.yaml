@@ -1,0 +1,19 @@
+replicaCount: 3  # Três réplicas para alta disponibilidade
+
+image:
+  repository: jairoJR-1/app:latest
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: true
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
