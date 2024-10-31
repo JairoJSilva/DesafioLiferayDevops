@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
       - name: migration
-        image: jairoJR-1/app:latest
+        image: jairoba/liferayapp:v1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
