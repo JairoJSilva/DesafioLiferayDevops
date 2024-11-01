@@ -2,7 +2,7 @@
 
 services:
   app:
-    image: jairoJR/app:latest
+    image: jairoJR-1/app:latest
     ports:
       - "3000:3000"
     depends_on:

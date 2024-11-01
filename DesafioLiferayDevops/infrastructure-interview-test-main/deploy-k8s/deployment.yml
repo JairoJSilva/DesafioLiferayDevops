@@ -58,9 +58,10 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: DB_HOST
-          value: "mariadb"
-        - name: DB_PORT
+        - name: MYSQL_HOST
+          value: "mariadb.liferay.svc.cluster.local"
+          #value: "mariadb"
+        - name: MYSQL_PORT
           value: "3306"
         - name: MYSQL_DATABASE
           value: "test"
@@ -110,6 +111,7 @@ spec:
         persistentVolumeClaim:
           claimName: db-data
 
+# SERVICE mariaDB
 ---
 
 apiVersion: v1
