@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.database.replicas }}
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb
+        image: {{ .Values.database.image }}
+        ports:
+        - containerPort: {{ .Values.database.containerPort }}
+        env:
+        - name: MYSQL_DATABASE
+          value: "{{ .Values.database.env.MYSQL_DATABASE }}"
+        - name: MYSQL_USERNAME
+          value: "{{ .Values.database.env.MYSQL_USERNAME }}"
+        - name: MYSQL_PASSWORD
+          value: "{{ .Values.database.env.MYSQL_PASSWORD }}"
+        - name: MYSQL_ROOT_PASSWORD
+          value: "{{ .Values.database.env.MYSQL_ROOT_PASSWORD }}"
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: db-storage
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: db-data

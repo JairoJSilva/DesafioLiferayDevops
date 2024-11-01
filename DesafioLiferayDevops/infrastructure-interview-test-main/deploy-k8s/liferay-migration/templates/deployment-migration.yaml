@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: migration
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.migration.replicas }}
+  selector:
+    matchLabels:
+      app: migration
+  template:
+    metadata:
+      labels:
+        app: migration
+    spec:
+      containers:
+      - name: migration
+        image: {{ .Values.migration.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.migration.containerPort }}
+        env:
+        - name: TYPEORM_HOST
+          value: "{{ .Values.migration.env.TYPEORM_HOST }}"
+        - name: TYPEORM_PORT
+          value: "{{ .Values.migration.env.TYPEORM_PORT }}"
+        - name: TYPEORM_migration
+          value: "{{ .Values.migration.env.TYPEORM_DATABASE }}"
+        - name: TYPEORM_USERNAME
+          value: "{{ .Values.migration.env.TYPEORM_USERNAME }}"
+        - name: TYPEORM_PASSWORD
+          value: "{{ .Values.migration.env.TYPEORM_PASSWORD }}"
+        - name: TYPEORM_ROOT_PASSWORD
+          value: "{{ .Values.migration.env.TYPEORM_ROOT_PASSWORD }}"

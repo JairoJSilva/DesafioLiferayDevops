@@ -1,0 +1,53 @@
+namespace: liferay
+
+serviceAccount:
+  create: false
+  name: ""
+autoscaling:
+  enabled: false  
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+persistence:
+  enabled: true
+  size: 1Gi
+
+migration:
+  replicas: 1
+  image: jairoba/liferayapp:v1.0
+  containerPort: 80
+  env:
+    TYPEORM_HOST: mariadb
+    TYPEORM_PORT: "3306"
+    TYPEORM_DATABASE: test
+    TYPEORM_USERNAME: root
+    TYPEORM_PASSWORD: test
+
+database:
+  replicas: 1
+  image: mariadb:5.5
+  containerPort: 3306
+  env:
+    MYSQL_DATABASE: "test"
+    MYSQL_USERNAME: "test"
+    MYSQL_PASSWORD: "test"
+    MYSQL_ROOT_PASSWORD: "test"
+
+appService:
+  name: liferay-app-service
+  type: NodePort
+  port: 3000
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  name: liferay-app-ingress
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: "app-liferay.liferay.com"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
